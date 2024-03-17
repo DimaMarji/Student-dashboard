@@ -1,0 +1,8 @@
+$card-colors: #f9cff263, #dae0f259, #efe9e777, #f3ffbd83;
+.task-card {
+    @for $i from 1 through length($card-colors) {
+      &:nth-child(4n + #{$i}) {
+        background-color: nth($card-colors, $i);
+      }
+    }
+  }

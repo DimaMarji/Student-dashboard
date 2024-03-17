@@ -1,0 +1,58 @@
+.register-container {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+  
+
+    
+    .card {
+      display: flex;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+  
+      
+  
+   
+    }
+  }
+
+  .register-page,.login-page{
+    background-color: rgb(95 94 170 / 40%);
+    height: 100vh;
+
+    .image-section {
+      flex: 1;
+      height: 100%;
+      width: 100%;
+      img{
+        width: 100%!important;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .css-mhc70k-MuiGrid-root>.MuiGrid-item{
+      padding: 0;
+    }
+    .form-section{
+      padding: 24px;
+      background-color: #fff;
+  
+    }
+    .css-1hbmzt3-MuiGrid-root{
+      height: 100%;
+
+
+  }
+  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline{
+border-color: rgb(95 94 170 / 40%) !important;
+}
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  color:  rgba(95, 94, 170, 0.885) !important;}
+
+  .css-1e6y48t-MuiButtonBase-root-MuiButton-root{
+    color:  rgba(95, 94, 170, 0.885) !important;
+  }
+  }
+
