@@ -1,19 +1,30 @@
 import React from 'react';
-import { Drawer, Typography } from '@mui/material';
+import {Divider, Drawer, Typography} from '@mui/material';
 import { ITaskDetailsProps } from './interface';
+import "./styles.scss"
 
 const TaskDetails: React.FC<ITaskDetailsProps> = ({ open, onClose, task }) => {
   return (
-    <Drawer anchor="right" open={open} onClose={onClose}>
-      <div style={{ padding: '16px' }}>
-        <Typography variant="h6" gutterBottom>
+    <Drawer className={"task-details"}  anchor="right" open={open} onClose={onClose}>
+      <div style={{ padding: '16px',display: "grid" }}>
+        <Typography variant="h6" gutterBottom color={"#5f5eaa"}>
           View Task
         </Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          Title: {task?.title}
+        <Divider className={"divider"}/>
+        <div className={"title-section"}>
+        <Typography variant="h6" gutterBottom>
+          Title
         </Typography>
         <Typography variant="subtitle1" gutterBottom>
-          Description: {task?.description}
+        {task?.title}
+        </Typography>
+        </div>
+        <Typography variant="h6" gutterBottom>
+          Description
+        </Typography>
+
+        <Typography variant="subtitle1" gutterBottom>
+       {task?.description}
         </Typography>
       </div>
     </Drawer>

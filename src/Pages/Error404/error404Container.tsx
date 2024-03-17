@@ -5,7 +5,7 @@ import"./styles.scss"
 const Error404Page:React.FC=()=>{
     const navigate=useNavigate()
     return<div className="error-404">
-        <img width={"35%"} src="/error404.jpg"/>
+        <img src="/error404.jpg"/>
         <Button 
         variant="contained"
               color="primary"

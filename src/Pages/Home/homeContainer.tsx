@@ -7,9 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "../../Redux/tasksSlice";
 import { Button } from "@mui/material";
 const Home: React.FC = () => {
+
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
   const dispatch = useDispatch();
-  const username = useSelector((state: any) => state.user.username);
+  const userData = useSelector((state: any) => state.user);
   const tasks = useSelector((state: any) => state.tasks.tasks);
 
   const handleOpenAddTask = () => {
@@ -25,9 +26,9 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={"home-page"}>
       <header className="task-content-header">
-        <h1 style={{ fontSize: "24px" }}>Hi, username</h1>
+        <h1 style={{ fontSize: "24px" }}>Hi, {userData?.username}</h1>
         <Button
         variant="contained"
           color="primary"
@@ -37,16 +38,16 @@ const Home: React.FC = () => {
           Add Task
         </Button>
       </header>
-      <main>
+      <div>
         {tasks.length === 0 ? (
           <div>
-            <img width={"40%"} src={"/empty.jpg"} alt="Empty state" />
+            <img src={"/empty.jpg"} className={"empty-image"} alt="Empty state" />
             <p>No tasks yet.</p>
           </div>
         ) : (
-          <TasksList tasks={tasks} />
+          <TasksList />
         )}
-      </main>
+      </div>
       <TaskForm
         open={isAddTaskOpen}
         onClose={handleCloseAddTask}

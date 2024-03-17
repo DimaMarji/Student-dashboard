@@ -1,6 +1,6 @@
 import { Outlet, useNavigate } from "react-router-dom"
 import SharedLayout from "../../Layouts/SharedLayout/sharedLayout"
-import useTokens from "../../Hooks/useToken"
+import useTokens from "../../Hooks/Auth/useToken"
 import { useEffect } from "react"
 
 const AuthRoute:React.FC=()=>{

@@ -3,8 +3,9 @@ import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Ic
 import { Assignment, CalendarToday, DateRange, ExitToApp, MenuBook, Menu } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import "./styles.scss"
-import useTokens from '../../../Hooks/useToken';
+import useTokens from '../../../Hooks/Auth/useToken';
 import { useAppMediaQuery } from '../../../Hooks/MediaQuery/use-app-media-query';
+import useUrlParams from "../../../Hooks/URL/useUrl";
 
 type SidebarProps = {};
 
@@ -13,6 +14,8 @@ const Sidebar: React.FC<SidebarProps> = ({  }) => {
   const { clearTokens } = useTokens();
   const { isTabletOrMobile } = useAppMediaQuery();
   const [open, setOpen] = useState(false);
+
+  const {addParam ,removeParam} =useUrlParams()
 
   const handleMenuClick = (route: string) => {
     navigate(route);
@@ -29,6 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({  }) => {
   return (
     <>
      {isTabletOrMobile && <IconButton
+         className={"menu-icon"}
         edge="start"
         color="inherit"
         aria-label="menu"
@@ -41,6 +45,7 @@ const Sidebar: React.FC<SidebarProps> = ({  }) => {
         edge="start"
         color="inherit"
         aria-label="menu"
+        sx={{justifyContent: "end"}}
         onClick={handleToggleSidebar}
       >
         <Menu />
@@ -51,17 +56,23 @@ const Sidebar: React.FC<SidebarProps> = ({  }) => {
         </div>
         <Box width={250} className="sidebar-content">
           <List>
-            <ListItem button onClick={() => handleMenuClick('/today')}>
+            <ListItem button onClick={() => removeParam("filter")}>
               <ListItemIcon>
                 <CalendarToday />
               </ListItemIcon>
-              <ListItemText primary="Today" />
+              <ListItemText primary="All Tasks" />
             </ListItem>
-            <ListItem button onClick={() => handleMenuClick('/next-7-days')}>
+            <ListItem button onClick={() => addParam("filter","pending")}>
               <ListItemIcon>
                 <DateRange />
               </ListItemIcon>
-              <ListItemText primary="Next 7 Days" />
+              <ListItemText primary="Pending Tasks" />
+            </ListItem>
+            <ListItem button onClick={() => addParam("filter","completed")}>
+              <ListItemIcon>
+                <DateRange />
+              </ListItemIcon>
+              <ListItemText primary="Completed Tasks" />
             </ListItem>
           </List>
           <List>

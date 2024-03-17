@@ -1,3 +1,5 @@
+@import "../../Styles/Helpers/mixins";
+
 .task-content-header{
     text-align: left;
     display: flex;
@@ -5,6 +7,22 @@
     padding-top: 24px;
     padding-bottom: 24px;
     button{
-        margin-right: 3vw;
+        //margin-right: 3vw;
+        height: 40px;
+    }
+}
+
+.empty-image{
+width: 30vw;
+}
+
+.home-page{
+    margin-inline:6% ;
+}
+
+@include media-query(tablet-and-mobile){
+    .empty-image{
+        width: 70vw;
+        max-width: 350px;
     }
 }

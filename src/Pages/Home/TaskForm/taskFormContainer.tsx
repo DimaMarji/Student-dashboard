@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Task, TaskFormProps } from './interface';
+import "./styles.scss"
 
 
 
@@ -35,8 +36,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ open, onClose, onAddTask }) => {
   };
 
   return (
-    <Drawer anchor="right" open={open} onClose={onClose}>
-      <div style={{ padding: '16px' }}>
+    <Drawer className={"task-form-drawer"} anchor="right" open={open} onClose={onClose} >
+      <div style={{ padding: '24px 32px' }}>
         <Typography variant="h6" gutterBottom>
           Add Task
         </Typography>
@@ -53,7 +54,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ open, onClose, onAddTask }) => {
             rows={4}
           />
         </FormControl>
-        <Button variant="contained" color="primary" onClick={handleAddTask}>
+        <Button variant="contained" color="primary" className={"primary-button"} onClick={handleAddTask}>
           Add
         </Button>
       </div>
