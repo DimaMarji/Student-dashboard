@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import { InputRegex } from "../../Constants/InputsRegex/inputsRegex";
 import { IRegisterForm, RegisterInputsType } from "./interface";
 import"./styles.scss"
 import { useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {generateUserId} from "../../Helpers/usersHelper";
+import {generateId} from "../../Helpers/usersHelper";
 import {RootState} from "../../Redux/store";
 import {registerUser} from "../../api/fakeApi";
 import useTokens from "../../Hooks/Auth/useToken";
 
 const Registration = () => {
 const navigate=useNavigate()
-  const{accessToken}=useTokens()
+  const{accessToken,setTokens}=useTokens()
 
   const [formValues, setFormValues] = useState<IRegisterForm>({
     email: "",
@@ -29,7 +29,6 @@ const navigate=useNavigate()
 
   const dispatch=useDispatch()
   const { status,user } = useSelector((state: RootState) => state.user);
-
 
   const handleInputChange = (
     key: RegisterInputsType,
@@ -83,16 +82,16 @@ const navigate=useNavigate()
 
     setFormErrors(errors);
     if (isValid) {
-      dispatch(registerUser({...formValues,id:generateUserId()}));
+      dispatch(registerUser({...formValues,id:generateId(),accessToken:generateId()})as any);
     }
   };
 
 
   useEffect(()=>{
-    if(status==="isSuccess"){
-      setTokens(user.accessToken, refreshToken);
+    if(status==="succeeded"){
+      setTokens(user.accessToken, user.accessToken);
     }
-  },[status])
+  },[status,user])
 
   useEffect(()=>{
     if(accessToken){

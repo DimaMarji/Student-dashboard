@@ -7,14 +7,15 @@ import useUrlParams from "../../../Hooks/URL/useUrl";
 
 
 
-const TasksList: React.FC = () => {
+const TasksList: React.FC<{tasks:Task[]}> = ({tasks}) => {
   const {getParam} = useUrlParams()
-  const tasks:Task[] = useSelector((state: any) => state.tasks.tasks);
+  
   const filterBy=getParam("filter")
 
   const filterdTasks=()=>{
-      return !!filterBy ? tasks?.filter((item)=>item?.status==filterBy):tasks
+      return !!filterBy ? tasks?.filter((item:any)=>item?.status==filterBy):tasks
   }
+
   return (
     <div style={{ display: "flex", flexWrap: "wrap" }}>
       {filterdTasks().map((task: Task) => <TaskCard task={task}/>)}

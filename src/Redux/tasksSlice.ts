@@ -51,7 +51,7 @@ const tasksSlice = createSlice({
             fetchTasks.fulfilled.type,
           ].includes(action.type),
         (state:any, action:any) => {
-          state.status = 'isSuccess';
+          state.status = 'succeeded';
           state.tasks = action.payload;
         }
       )
@@ -64,7 +64,7 @@ const tasksSlice = createSlice({
             patchTask.rejected.type,
           ].includes(action.type),
         (state:any, action:any) => {
-          state.status = 'isError';
+          state.status = 'failed';
           state.error = action.error.message;
         }
       );

@@ -17,8 +17,6 @@ const Login = () => {
     const [emailError, setEmailError] = useState('');
     const {status, error, user} = useSelector((state: RootState) => state.user);
 
-    console.log(status, error, user)
-
 
     const handleInputChange = (key: "email" | "password",
                                event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -38,12 +36,10 @@ const Login = () => {
         if (!validateEmail(formValues?.email)) {
             setEmailError('Invalid email format');
         } else {
-            setTokens("accessToken", "refreshToken");
-            // dispatch(loginUser(formValues));
+              dispatch(loginUser(formValues) as any);
         }
     };
 
-    const refreshToken = 'YOUR_REFRESH_TOKEN';
     useEffect(() => {
         if (accessToken) {
             navigate("/")
@@ -51,10 +47,10 @@ const Login = () => {
     }, [accessToken])
 
     useEffect(() => {
-        if (status === "isSuccess") {
-            setTokens(user?.accessToken, refreshToken);
+        if (status === "succeeded" && user) {  
+            setTokens(user?.accessToken, user?.accessToken);
         }
-    }, [status])
+    }, [status,user])
 
 
     return <div className="login-page">
@@ -127,7 +123,7 @@ const Login = () => {
             </Grid>
         </Grid>
         <Snackbar
-            open={status == "isError"}
+            open={status == "failed"}
             autoHideDuration={3000}
             message={error}
         />

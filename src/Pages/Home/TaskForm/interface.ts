@@ -5,7 +5,7 @@ export type TaskFormProps = {
   };
   
   export type Task = {
-    id?: number|string;
+    id?: string;
     title: string;
     description: string;
     status?:TaskStatusType

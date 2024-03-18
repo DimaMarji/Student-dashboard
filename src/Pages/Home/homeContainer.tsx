@@ -13,8 +13,9 @@ const Home: React.FC = () => {
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
   const dispatch = useDispatch();
   const {getParam} = useUrlParams()
-  const userData = useSelector((state: any) => state.user);
-  const tasks:Task[] = useSelector((state: any) => state.tasks.tasks);
+  const {user} = useSelector((state: any) => state.user);
+  const {tasks ,status}= useSelector((state: any) => state.tasks);
+  
 
   const filterBy=getParam("filter")
 
@@ -23,8 +24,8 @@ const Home: React.FC = () => {
   }
 
   useEffect(() => {
-     dispatch(fetchTasks(userData?.id));
-  }, [dispatch]);
+    user &&  dispatch(fetchTasks(user?.id));
+  }, [user]);
 
   const handleOpenAddTask = () => {
     setIsAddTaskOpen(true);
@@ -41,7 +42,7 @@ const Home: React.FC = () => {
   return (
     <div className={"home-page"}>
       <header className="task-content-header">
-        <h1 style={{ fontSize: "24px" }}>Hi, Dima {userData?.username}</h1>
+        <h1 style={{ fontSize: "24px" }}>Hi, {user?.username}</h1>
         <Button
         variant="contained"
           color="primary"
@@ -58,7 +59,7 @@ const Home: React.FC = () => {
             <p>No tasks yet.</p>
           </div>
         ) : (
-          <TasksList />
+          <TasksList tasks={tasks} />
         )}
       </div>
       <TaskForm

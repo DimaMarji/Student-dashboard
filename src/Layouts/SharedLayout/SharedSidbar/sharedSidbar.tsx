@@ -6,6 +6,8 @@ import "./styles.scss"
 import useTokens from '../../../Hooks/Auth/useToken';
 import { useAppMediaQuery } from '../../../Hooks/MediaQuery/use-app-media-query';
 import useUrlParams from "../../../Hooks/URL/useUrl";
+import { useDispatch } from 'react-redux';
+import { resetUser } from '../../../Redux/userSlice';
 
 type SidebarProps = {};
 
@@ -13,11 +15,12 @@ const Sidebar: React.FC<SidebarProps> = ({  }) => {
   const { clearTokens } = useTokens();
   const { isTabletOrMobile } = useAppMediaQuery();
   const navigate=useNavigate()
-  
+  const dispatch=useDispatch()
   const [open, setOpen] = useState(false);
   const {addParam ,removeParam} =useUrlParams()
 
   const handleSignOut = () => {
+    dispatch(resetUser())
     clearTokens();
     navigate("/login", {replace: true})
   };
