@@ -1,4 +1,6 @@
-.task-details .MuiPaper-root{
+@import "../../../Styles/Helpers/mixins";
+
+.task-details {.MuiPaper-root{
   width: 38vw;
   padding:16px  24px ;
 
@@ -7,6 +9,14 @@
 }
   .title-section{
     margin-bottom: 24px;
-  }
+  }}
+.MuiTypography-subtitle1{
+  word-break: break-all;
+}
+}
 
+@include media-query(tablet-and-mobile){
+  .task-details .MuiPaper-root{
+    width: 80vw;
+  }
 }

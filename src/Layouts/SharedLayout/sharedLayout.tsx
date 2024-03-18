@@ -8,11 +8,13 @@ import {useNavigate} from "react-router-dom";
 import {useAppMediaQuery} from "../../Hooks/MediaQuery/use-app-media-query";
 
 const SharedLayout: React.FC<ISharedLayoutProps> = ({children}) => {
-    const {accessToken} = useTokens();
+    const {accessToken,clearTokens} = useTokens();
     const navigate = useNavigate()
     const {isTabletOrMobile} = useAppMediaQuery()
 
     useEffect(() => {
+        console.log(accessToken);
+        
         if (!accessToken) {
             navigate("/login", {replace: true})
         }

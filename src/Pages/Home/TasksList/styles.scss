@@ -1,7 +1,8 @@
 $card-colors: #f9cff263, #dae0f259, #efe9e777, #f3ffbd83;
 .task-card {
-.MuiCardHeader-root {
-  //display: block;
+ 
+.MuiCardContent-root,.MuiTypography-root {
+  word-break: break-all;
 }
 
 

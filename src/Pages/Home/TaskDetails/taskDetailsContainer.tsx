@@ -13,16 +13,9 @@ const TaskDetails: React.FC<ITaskDetailsProps> = ({ open, onClose, task }) => {
         <Divider className={"divider"}/>
         <div className={"title-section"}>
         <Typography variant="h6" gutterBottom>
-          Title
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom>
         {task?.title}
         </Typography>
         </div>
-        <Typography variant="h6" gutterBottom>
-          Description
-        </Typography>
-
         <Typography variant="subtitle1" gutterBottom>
        {task?.description}
         </Typography>

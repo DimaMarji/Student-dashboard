@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Task } from '../Pages/Home/TaskForm/interface';
+import { createTask, deleteTaskApi, fetchTasks, patchTask } from '../api/fakeApi';
 
 
 interface TasksState {
@@ -17,7 +18,7 @@ const tasksSlice = createSlice({
     addTask: (state, action: PayloadAction<Task>) => {
       state.tasks.push(action.payload);
     },
-    deleteTask: (state, action: PayloadAction<number|string|undefined>) => {
+    deleteTask: (state, action: PayloadAction<number | string | undefined>) => {
       const taskId = action.payload;
       state.tasks = state.tasks.filter(task => task.id !== taskId);
     },
@@ -29,6 +30,45 @@ const tasksSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        (action) =>
+          [
+            fetchTasks.pending.type,
+            createTask.pending.type,
+            deleteTaskApi.pending.type,
+            patchTask.pending.type,
+          ].includes(action.type),
+        (state:any) => {
+          state.status = 'isLoading';
+          state.error = null;
+        }
+      )
+      .addMatcher(
+        (action) =>
+          [
+            fetchTasks.fulfilled.type,
+          ].includes(action.type),
+        (state:any, action:any) => {
+          state.status = 'isSuccess';
+          state.tasks = action.payload;
+        }
+      )
+      .addMatcher(
+        (action) =>
+          [
+            fetchTasks.rejected.type,
+            createTask.rejected.type,
+            deleteTaskApi.rejected.type,
+            patchTask.rejected.type,
+          ].includes(action.type),
+        (state:any, action:any) => {
+          state.status = 'isError';
+          state.error = action.error.message;
+        }
+      );
+  }
 });
 
 export const { addTask,deleteTask,updateTask  } = tasksSlice.actions;

@@ -10,19 +10,16 @@ import useUrlParams from "../../../Hooks/URL/useUrl";
 type SidebarProps = {};
 
 const Sidebar: React.FC<SidebarProps> = ({  }) => {
-  const navigate = useNavigate();
   const { clearTokens } = useTokens();
   const { isTabletOrMobile } = useAppMediaQuery();
+  const navigate=useNavigate()
+  
   const [open, setOpen] = useState(false);
-
   const {addParam ,removeParam} =useUrlParams()
-
-  const handleMenuClick = (route: string) => {
-    navigate(route);
-  };
 
   const handleSignOut = () => {
     clearTokens();
+    navigate("/login", {replace: true})
   };
 
   const handleToggleSidebar = () => {
@@ -51,26 +48,26 @@ const Sidebar: React.FC<SidebarProps> = ({  }) => {
         <Menu />
       </IconButton>}
         <div className='app-logo'>
-          <Assignment fontSize="medium" />
+        <img src="/to-do-list.png" width={32} />
           <Typography variant="h6">TaskMaster</Typography>
         </div>
         <Box width={250} className="sidebar-content">
           <List>
             <ListItem button onClick={() => removeParam("filter")}>
               <ListItemIcon>
-                <CalendarToday />
+              <img src="/task.png" width={24} />
               </ListItemIcon>
               <ListItemText primary="All Tasks" />
             </ListItem>
             <ListItem button onClick={() => addParam("filter","pending")}>
               <ListItemIcon>
-                <DateRange />
+              <img src="/clock.png" width={24} />
               </ListItemIcon>
               <ListItemText primary="Pending Tasks" />
             </ListItem>
             <ListItem button onClick={() => addParam("filter","completed")}>
               <ListItemIcon>
-                <DateRange />
+              <img src="/done.png" width={24} />
               </ListItemIcon>
               <ListItemText primary="Completed Tasks" />
             </ListItem>
