@@ -9,5 +9,6 @@ export type TaskFormProps = {
     title: string;
     description: string;
     status?:TaskStatusType
+      userId:string|number
   };
   export type TaskStatusType="pending"|"completed"

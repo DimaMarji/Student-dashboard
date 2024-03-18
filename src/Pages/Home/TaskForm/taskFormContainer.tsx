@@ -13,7 +13,7 @@ import "./styles.scss"
 import { CloseOutlined } from '@mui/icons-material';
 import { useAppMediaQuery } from '../../../Hooks/MediaQuery/use-app-media-query';
 import { createTask } from '../../../api/fakeApi';
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 
 
@@ -22,6 +22,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ open, onClose, onAddTask }) => {
   const [description, setDescription] = useState('');
 
   const dispatch=useDispatch()
+  const userData = useSelector((state: any) => state.user);
   const {isTabletOrMobile}=useAppMediaQuery()
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +37,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ open, onClose, onAddTask }) => {
     const newTask: Task = {
       title,
       description,
-      status:"pending"
+      status:"pending",
+      userId:userData?.id
     };
     dispatch(createTask(newTask));
     onAddTask(newTask);

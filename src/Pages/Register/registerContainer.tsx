@@ -4,9 +4,15 @@ import { InputRegex } from "../../Constants/InputsRegex/inputsRegex";
 import { IRegisterForm, RegisterInputsType } from "./interface";
 import"./styles.scss"
 import { useNavigate } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {generateUserId} from "../../Helpers/usersHelper";
+import {RootState} from "../../Redux/store";
+import {registerUser} from "../../api/fakeApi";
+import useTokens from "../../Hooks/Auth/useToken";
 
 const Registration = () => {
 const navigate=useNavigate()
+  const{accessToken}=useTokens()
 
   const [formValues, setFormValues] = useState<IRegisterForm>({
     email: "",
@@ -21,6 +27,10 @@ const navigate=useNavigate()
     usernameError: "",
   });
 
+  const dispatch=useDispatch()
+  const { status,user } = useSelector((state: RootState) => state.user);
+
+
   const handleInputChange = (
     key: RegisterInputsType,
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -32,6 +42,8 @@ const navigate=useNavigate()
     });
   };
 
+
+  //TODO use YUP instead of this for validation
   const validateEmail = (input?: string): boolean => {
     return !!input && InputRegex.email.test(input);
   };
@@ -71,9 +83,23 @@ const navigate=useNavigate()
 
     setFormErrors(errors);
     if (isValid) {
-      //Register
+      dispatch(registerUser({...formValues,id:generateUserId()}));
     }
   };
+
+
+  useEffect(()=>{
+    if(status==="isSuccess"){
+      setTokens(user.accessToken, refreshToken);
+    }
+  },[status])
+
+  useEffect(()=>{
+    if(accessToken){
+      navigate("/")
+    }
+  },[accessToken])
+
 
   return (
     <div className="register-page">

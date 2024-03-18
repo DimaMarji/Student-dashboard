@@ -1,21 +1,49 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Task } from '../Pages/Home/TaskForm/interface';
+import {createAsyncThunk} from '@reduxjs/toolkit';
+import {Task} from '../Pages/Home/TaskForm/interface';
 import axios from 'axios';
 
-// Authentication
-export const login = createAsyncThunk('auth/login', async (credentials:any) => {
-  // Simulate authentication logic
-  if (credentials.username === 'admin' && credentials.password === 'password') {
-    return { token: 'fake-token' };
-  } else {
-    throw new Error('Invalid username or password');
-  }
-});
+
+interface UserData {
+    email: string;
+    password: string;
+}
+
+
+export const loginUser = createAsyncThunk(
+    'user/login',
+    async (userData: UserData, { rejectWithValue }) => {
+        try {
+            const response = await axios.get<UserData>('http://localhost:4000/users');
+
+            const currentUserData=response?.data?.filter((item)=>item?.email===userData?.email)
+            console.log({...currentUserData?.[0],accessToken:"YOUR_ACCESS_TOKEN"})
+            if(userData?.password==currentUserData?.password)
+            return {...currentUserData?.[0],accessToken:"YOUR_ACCESS_TOKEN"};
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
+
+export const registerUser = createAsyncThunk(
+    'user/register',
+    async (userData: UserData, { rejectWithValue }) => {
+        try {
+            const response = await axios.post<UserData>('http://localhost:4000/users', userData);
+
+            return {...response.data,accessToken:"YOUR_ACCESS_TOKEN"};
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
 
 // CRUD operations
-export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async () => {
+export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async (userId) => {
     const response = await axios.get<Task[]>('http://localhost:4000/tasks');
-    return response.data;
+    return response.data?.filter({userId: userId});
   });
 
   export const createTask = createAsyncThunk(

@@ -23,7 +23,7 @@ const Home: React.FC = () => {
   }
 
   useEffect(() => {
-     dispatch(fetchTasks());
+     dispatch(fetchTasks(userData?.id));
   }, [dispatch]);
 
   const handleOpenAddTask = () => {
