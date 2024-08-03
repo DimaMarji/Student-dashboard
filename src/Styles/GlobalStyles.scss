@@ -1,3 +1,6 @@
+@import "./colors";
+@import "Fonts/fonts.module";
+
 input{
 
     font-size: 14px !important;
@@ -7,11 +10,16 @@ label{
     font-size: 14px !important;
 }
 
-.primary-button{
-    background-color: #5f5eaa !important;
-    *{color: white;
-}}
+
 
 .MuiButton-root{
     outline: 0 !important;
+}
+
+
+.MuiTypography-h2{
+    color:$black-font-color ;
+    //font-family: $font-family-semi-bold !important;
+    font-weight: 600 !important;
+    //line-height:64.52px;
 }

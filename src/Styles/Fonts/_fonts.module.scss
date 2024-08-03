@@ -1,0 +1,19 @@
+$font-family-regular: work-sans-regular;
+$font-family-semi-bold: work-sans-semi-bold;
+$font-family-bold: work-sans-bold;
+
+@font-face {
+  font-family: "work-sans-regular";
+  src: url("/WorkSans-Regular.ttf");
+}
+
+@font-face {
+  font-family: "work-sans-semi-bold";
+  src: url("/WorkSans-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: "work-sans-bold";
+  src: url("./work-sans.bold.ttf");
+}
+

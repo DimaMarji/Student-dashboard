@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import useTokens from '../../Hooks/Auth/useToken';
 import {useNavigate} from 'react-router-dom';
-import {Button, Grid, Paper, Snackbar, TextField, Typography} from '@mui/material';
+import {Grid, Paper, Snackbar, TextField, Typography} from '@mui/material';
 import {InputRegex} from '../../Constants/InputsRegex/inputsRegex';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../Redux/store";
 import {loginUser} from "../../api/fakeApi";
+import LoginImage from "../../Assets/Images/Login/login-img.png"
+import {Button} from "../../Components/Button/index";
+import "./styles.scss"
 
 
 const Login = () => {
@@ -14,27 +17,27 @@ const Login = () => {
     const dispatch = useDispatch()
     const {setTokens, accessToken} = useTokens();
     const [formValues, setFormValues] = useState<any>();
-    const [emailError, setEmailError] = useState('');
+    const [usernameError, setUsernameError] = useState('');
     const {status, error, user} = useSelector((state: RootState) => state.user);
 
 
-    const handleInputChange = (key: "email" | "password",
+    const handleInputChange = (key: "username" | "password",
                                event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        key === "email" && setEmailError("")
+        key === "username" && setUsernameError("")
         setFormValues((prevState: any) => {
             return {...prevState, [key]: event.target.value}
         });
     };
 
 
-    const validateEmail = (input?: string): boolean => {
-        return !!input && InputRegex.email.test(input);
+    const validateUsername = (input?: string): boolean => {
+        return !!input ;
     };
 
     const handleLogin = (event: any) => {
         event.preventDefault();
-        if (!validateEmail(formValues?.email)) {
-            setEmailError('Invalid email format');
+        if (!validateUsername(formValues?.username)) {
+            setUsernameError('Invalid username format');
         } else {
               dispatch(loginUser(formValues) as any);
         }
@@ -53,21 +56,21 @@ const Login = () => {
     }, [status,user])
 
 
-    return <div className="login-page">
-        <Grid container justifyContent="center" alignItems="center">
-            <Grid sx={{borderRadius: "20px", overflow: "hidden"}} item xs={10} sm={8} md={8} lg={7}>
-                <Paper elevation={3} sx={{display: 'flex', alignItems: "stretch", height: "100%"}}>
+    return <div >
+        <Grid container className="login-page">
 
-                    <Grid xs={12} md={6} lg={6}>
+                {/*<Paper elevation={3} sx={{display: 'flex', alignItems: "stretch", height: "100%"}}>*/}
+
+                    <Grid item xs={5} md={5} lg={5}>
                         <div className="image-section">
-                            <img src="/login.avif"/>
+                            <img src={LoginImage} alt={"login-img"}/>
                         </div>
                     </Grid>
-                    <Grid item xs={12} md={6} lg={6}>
-                        <div className="form-section">
+                    <Grid item xs={8} md={8} lg={8} className="form-section">
+                        <div className="form-container">
 
 
-                            <Typography fontSize={"24px"} component="h2" variant="h4" color={"#5f5eaa"}
+                            <Typography fontSize={"42px"} component="h5" variant="h2" color={"#212224"}
                                         className={"title"}>
                                 Login
                             </Typography>
@@ -77,15 +80,15 @@ const Login = () => {
                                     margin="normal"
                                     required
                                     fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    error={!!emailError}
-                                    helperText={emailError}
-                                    autoComplete="email"
+                                    id="username"
+                                    label="Username"
+                                    name="username"
+                                    error={!!usernameError}
+                                    helperText={usernameError}
+                                    autoComplete="username"
                                     size='small'
-                                    value={formValues?.email}
-                                    onChange={(event) => handleInputChange("email", event)}
+                                    value={formValues?.username}
+                                    onChange={(event) => handleInputChange("username", event)}
                                     className={"textField"}
                                 />
                                 <TextField
@@ -104,14 +107,12 @@ const Login = () => {
                                     className={"textField"}
                                 />
 
-                                <Typography>Don't have Account?
-                                    <Button onClick={() => navigate("/register", {replace: true})}
-                                            variant='text'>Sign up</Button></Typography>
+
                                 <Button
                                     type="submit"
                                     variant="contained"
                                     color="primary"
-                                    className={"primary-button"}
+                                    className={"login-button"}
 
                                 >
                                     Sign In
@@ -119,8 +120,7 @@ const Login = () => {
                             </form>
                         </div>
                     </Grid>
-                </Paper>
-            </Grid>
+                {/*</Paper>*/}
         </Grid>
         <Snackbar
             open={status == "failed"}

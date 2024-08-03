@@ -1,0 +1,9 @@
+@import "../../Styles/colors";
+
+.default-button {
+
+  &.MuiButton-containedPrimary {
+    background-color: $primary-button-background-color !important;
+  }
+
+}
