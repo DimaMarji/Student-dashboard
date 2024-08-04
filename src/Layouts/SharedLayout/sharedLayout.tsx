@@ -8,14 +8,17 @@ import {useNavigate} from "react-router-dom";
 import {useAppMediaQuery} from "../../Hooks/MediaQuery/use-app-media-query";
 import { useDispatch } from "react-redux";
 import { getUser, loginUser } from "../../api/fakeApi";
+import SharedNavbar from "./SharedNavbar/sharedNavbar";
+import {useLanguage} from "../../Context/Language/LanguageContext";
 
 const SharedLayout: React.FC<ISharedLayoutProps> = ({children}) => {
     const {accessToken,clearTokens} = useTokens();
     const navigate = useNavigate()
     const dispatch=useDispatch()
     const {isTabletOrMobile} = useAppMediaQuery()
+    const {cultureCode, switchLanguage} = useLanguage();
 
-    useEffect(() => {  
+    useEffect(() => {
         if (!accessToken) {
             navigate("/login", {replace: true})
         }
@@ -25,7 +28,9 @@ const SharedLayout: React.FC<ISharedLayoutProps> = ({children}) => {
 
     return (
         <div>
-            <Grid container>
+            <SharedNavbar/>
+            <Grid container direction={cultureCode?'row-reverse':"row"}>
+
                 <Grid item xs={!isTabletOrMobile ? 3 : 0}>
                     <Sidebar/>
                 </Grid>
