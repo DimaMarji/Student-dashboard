@@ -8,6 +8,7 @@ import { useAppMediaQuery } from '../../../Hooks/MediaQuery/use-app-media-query'
 import useUrlParams from "../../../Hooks/URL/useUrl";
 import { useDispatch } from 'react-redux';
 import { resetUser } from '../../../Redux/userSlice';
+import {useLanguage} from "../../../Context/Language/LanguageContext";
 
 type SidebarProps = {};
 
@@ -18,6 +19,7 @@ const Sidebar: React.FC<SidebarProps> = ({  }) => {
   const dispatch=useDispatch()
   const [open, setOpen] = useState(false);
   const {addParam ,removeParam} =useUrlParams()
+  const {cultureCode, switchLanguage} = useLanguage();
 
   const handleSignOut = () => {
     dispatch(resetUser())
@@ -40,7 +42,9 @@ const Sidebar: React.FC<SidebarProps> = ({  }) => {
       >
         <Menu />
       </IconButton>}
-      <Drawer className='layout-sidebar' variant={isTabletOrMobile ? 'persistent' : 'permanent'} anchor="left" open={isTabletOrMobile ? open : true}>
+      <Drawer className='layout-sidebar' variant={isTabletOrMobile ? 'persistent' : 'permanent'}
+              anchor={cultureCode?'right':"left"}
+              open={isTabletOrMobile ? open : true}>
       {isTabletOrMobile && open && <IconButton
         edge="start"
         color="inherit"

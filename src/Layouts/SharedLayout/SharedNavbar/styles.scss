@@ -1,11 +1,13 @@
-.navbar{
-    &.css-1q9ww7s-MuiPaper-root-MuiAppBar-root
-    {
-        box-shadow:none
-    }
-    background-color: #c6c7f7;
+.navbar-content {
+  width: fit-content;
+  margin-left: auto;
+  gap: 5rem;
 
-    .css-1q39md6-MuiButtonBase-root-MuiButton-root{
-        color: #6162be;
-    }
+  .user-details{
+    display: flex;
+    gap: 1.5rem;
+    white-space: nowrap;
+    align-items: center;
+  }
+
 }

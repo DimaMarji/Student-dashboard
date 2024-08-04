@@ -1,20 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import useTokens from '../../Hooks/Auth/useToken';
 import {useNavigate} from 'react-router-dom';
-import {Grid, Paper, Snackbar, TextField, Typography} from '@mui/material';
-import {InputRegex} from '../../Constants/InputsRegex/inputsRegex';
+import {FormControl, Grid, MenuItem, Select, Snackbar, TextField, Typography} from '@mui/material';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../Redux/store";
 import {loginUser} from "../../api/fakeApi";
 import LoginImage from "../../Assets/Images/Login/login-img.png"
 import {Button} from "../../Components/Button/index";
 import "./styles.scss"
+import {useTranslation} from "react-i18next";
+import {useLanguage} from "../../Context/Language/LanguageContext";
+import {CultureCode, languageMap} from "../../Constants/Language/cultureCode";
 
 
 const Login = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const {t, i18n} = useTranslation()
+    const {cultureCode, switchLanguage} = useLanguage();
+
     const {setTokens, accessToken} = useTokens();
     const [formValues, setFormValues] = useState<any>();
     const [usernameError, setUsernameError] = useState('');
@@ -31,7 +36,7 @@ const Login = () => {
 
 
     const validateUsername = (input?: string): boolean => {
-        return !!input ;
+        return !!input;
     };
 
     const handleLogin = (event: any) => {
@@ -39,7 +44,7 @@ const Login = () => {
         if (!validateUsername(formValues?.username)) {
             setUsernameError('Invalid username format');
         } else {
-              dispatch(loginUser(formValues) as any);
+            dispatch(loginUser(formValues) as any);
         }
     };
 
@@ -50,77 +55,95 @@ const Login = () => {
     }, [accessToken])
 
     useEffect(() => {
-        if (status === "succeeded" && user) {  
+        if (status === "succeeded" && user) {
             setTokens(user?.accessToken, user?.accessToken);
         }
-    }, [status,user])
+    }, [status, user])
 
 
-    return <div >
-        <Grid container className="login-page">
+    return <div>
+        <Grid container className="login-page" direction={cultureCode?'row-reverse':"row"}>
+            <Grid item xs={5} md={5} lg={5}>
 
-                {/*<Paper elevation={3} sx={{display: 'flex', alignItems: "stretch", height: "100%"}}>*/}
+                <FormControl fullWidth>
+                    <Select
+                        className={"lang-select"}
+                        value={cultureCode}
+                        onChange={(event) => {
+                            switchLanguage(event?.target?.value)
+                        }}
+                    >
+                        <MenuItem value={CultureCode.EN}>English</MenuItem>
+                        <MenuItem value={CultureCode.AR}>العربية</MenuItem>
+                    </Select>
+                </FormControl>
 
-                    <Grid item xs={5} md={5} lg={5}>
-                        <div className="image-section">
-                            <img src={LoginImage} alt={"login-img"}/>
-                        </div>
-                    </Grid>
-                    <Grid item xs={8} md={8} lg={8} className="form-section">
-                        <div className="form-container">
+                <div className="image-section">
+                    <img src={LoginImage} alt={"login-img"}/>
+                </div>
+            </Grid>
+            <Grid item xs={8} md={8} lg={8} className="form-section">
+                <div className="form-container">
 
 
-                            <Typography fontSize={"42px"} component="h5" variant="h2" color={"#212224"}
-                                        className={"title"}>
-                                Login
+                    <Typography fontSize={"3.438rem"} component="h5" variant="h2" color={"#212224"}
+                                className={"title"}>
+                        {t('login')}
+                    </Typography>
+                    <form className={"form"} onSubmit={handleLogin}>
+                        <div className={"form-item"}>
+                            <Typography fontSize={"1.5rem"} component="h6" variant="h6" color={"#666666"}
+                            >
+                                {t('username')}
                             </Typography>
-                            <form className={"form"} onSubmit={handleLogin}>
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="username"
-                                    label="Username"
-                                    name="username"
-                                    error={!!usernameError}
-                                    helperText={usernameError}
-                                    autoComplete="username"
-                                    size='small'
-                                    value={formValues?.username}
-                                    onChange={(event) => handleInputChange("username", event)}
-                                    className={"textField"}
-                                />
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    size='small'
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="current-password"
-                                    value={formValues?.password}
-                                    onChange={(event) => handleInputChange("password", event)}
-                                    className={"textField"}
-                                />
-
-
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                    className={"login-button"}
-
-                                >
-                                    Sign In
-                                </Button>
-                            </form>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="username"
+                                name="username"
+                                error={!!usernameError}
+                                helperText={usernameError}
+                                size='small'
+                                value={formValues?.username}
+                                onChange={(event) => handleInputChange("username", event)}
+                                className={"textField"}
+                            />
                         </div>
-                    </Grid>
-                {/*</Paper>*/}
+                        <div className={"form-item"}>
+                            <Typography fontSize={"1.5rem"} component="h6" variant="h6" color={"#666666"}
+                            >
+                                {t('password')}
+                            </Typography>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                size='small'
+                                name="password"
+                                // label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                value={formValues?.password}
+                                onChange={(event) => handleInputChange("password", event)}
+                                className={"textField"}
+                            />
+                        </div>
+
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={"login-button"}
+
+                        >
+                            {t('signIn')}
+
+                        </Button>
+                    </form>
+                </div>
+            </Grid>
         </Grid>
         <Snackbar
             open={status == "failed"}
