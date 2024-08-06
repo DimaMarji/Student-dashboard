@@ -1,120 +1,134 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {Task} from '../Pages/Home/TaskForm/interface';
 import axios from 'axios';
-import { Task } from '@mui/icons-material';
+import {ServicesName} from "../Constants/ServicesNames/servicesNames";
 
 
-interface UserData {
-    email: string;
+export interface IUserData {
+    username: string;
     password: string;
-    username?:string
-    id:string|number
-    accessToken?:string
+}
+
+interface IStudent {
+
+}
+
+interface ILoginResponse {
+    token: string;
 }
 
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BASE_API_URL
+
 export const loginUser = createAsyncThunk(
     'user/login',
-    async (userData: any) => {
+    async (userData: IUserData, {rejectWithValue}) => {
         try {
-            const response = await axios.get<UserData[]>('http://localhost:4000/users');
-
-            const currentUserData=response?.data
-            ?.filter((item)=>item?.email===userData?.email)
-
-            if(userData?.password==currentUserData?.[0]?.password)
-            return currentUserData?.[0];
-          else {
-            throw new Error('Invalid password');
-          }
-        } catch (error) {
-          throw new Error('An error occurred during login');
-        }
-    }
-);
-
-export const getUser = createAsyncThunk(
-  'user/profile',
-  async (accessToken: any) => {
-      try {
-          const response = await axios.get<UserData[]>('http://localhost:4000/users');
-
-          const currentUserData=response?.data?.filter((item)=>item?.accessToken===accessToken)
-          return currentUserData?.[0];
-    
-      } catch (error) {
-        throw new Error('An error occurred during login');
-      }
-  }
-);
-
-
-export const registerUser = createAsyncThunk(
-    'user/register',
-    async (userData: UserData, { rejectWithValue }) => {
-        try {
-            const response = await axios.post<UserData>('http://localhost:4000/users', userData);
-
+            const response = await axios.post<ILoginResponse>(`${baseUrl}${ServicesName.SignIn}`, userData);
             return response.data;
-        } catch (error:any) {
-            return rejectWithValue(error.response.data);
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                return rejectWithValue(error.response.data);
+            }
+            return rejectWithValue('An error occurred during login');
         }
     }
 );
 
 
-// CRUD operations
-export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async (userId:string|number) => {
-
-  
-    const response = await axios.get<Task[]>('http://localhost:4000/tasks');
-    
-    return response.data?.filter((item:Task)=> item?.userId==userId);
-  });
-
-  export const createTask = createAsyncThunk(
-    'tasks/addTask',
-    async (newTask: Task) => {
-      try {
-        const response = await axios.post<Task>(
-          'http://localhost:4000/tasks',
-          newTask
-        );
-        return response.data;
-      } catch (error) {
-        console.error('error', error);
-        throw error;
-      }
+export const fetchStudents = createAsyncThunk(
+    'students/getAll',
+    async (token: string, {rejectWithValue}) => {
+        try {
+            const response = await axios.get<IStudent[]>(`${baseUrl}${ServicesName.Students}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return response.data;
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                return rejectWithValue(error.response.data);
+            }
+            return rejectWithValue('An error occurred while fetching students');
+        }
     }
-  );
+);
 
-  export const patchTask = createAsyncThunk(
-    'tasks/patchTask',
-    async (updatedTask: Task) => {
-      try {
-        console.log("updatedTask.id",updatedTask.id);
-    
-        const response = await axios.patch<Task>(
-          `http://localhost:4000/tasks/${updatedTask.id}`,
-          updatedTask
-        );
-        return response.data;
-      } catch (error) {
-        console.error('error', error);
-        throw error;
-      }
+
+export const getStudent = createAsyncThunk(
+    'students/get',
+    async (token: string, studentId: string, {rejectWithValue}) => {
+        try {
+            const response = await axios.get<IStudent>(`${baseUrl}${ServicesName.GetStudent}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                params: {
+                    id: studentId
+                }
+            });
+            return response.data;
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                return rejectWithValue(error.response.data);
+            }
+            return rejectWithValue('An error occurred while fetching student');
+        }
     }
-  );
-  
-  export const deleteTaskApi = createAsyncThunk(
-    'tasks/deleteTask',
-    async (taskId: number|string) => {
-      try {
-        await axios.delete(`http://localhost:4000/tasks/${taskId}`);
-        return taskId;
-      } catch (error) {
-        console.error('error', error);
-        throw error;
-      }
+);
+
+export const addStudent = createAsyncThunk(
+    'students/add',
+    async (token: string, newStudent: any) => {
+        try {
+            const response = await axios.post<IStudent>(
+                `${baseUrl}${ServicesName.AddStudent}`,
+                newStudent, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
-  );
+);
+
+export const editStudent = createAsyncThunk(
+    'students/edit',
+    async (token: string, updatedStudent: IStudent) => {
+        try {
+            const response = await axios.patch<IStudent>(
+                `${baseUrl}${ServicesName.EditStudent}`,
+                updatedStudent, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
+            return response.data;
+        } catch (error) {
+            console.error('error', error);
+            throw error;
+        }
+    }
+);
+
+export const deleteStudent = createAsyncThunk(
+    'students/delete',
+    async (token: string, studentId: string) => {
+        try {
+            await axios.delete(`${baseUrl}${ServicesName.DeleteStudent}`, {
+                params: {id: studentId}, headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            return studentId;
+        } catch (error) {
+            console.error('error', error);
+            throw error;
+        }
+    }
+);

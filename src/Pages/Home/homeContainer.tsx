@@ -14,11 +14,12 @@ import {
     TablePagination,
     TableRow, Typography
 } from "@mui/material";
-import {fetchTasks} from "../../api/fakeApi";
+import {fetchStudents} from "../../api/fakeApi";
 import useUrlParams from "../../Hooks/URL/useUrl";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import * as React from "react";
 import {useTranslation} from "react-i18next";
+import useTokens from "../../Hooks/Auth/useToken";
 
 const Home: React.FC = () => {
 
@@ -28,6 +29,7 @@ const Home: React.FC = () => {
     const {t} = useTranslation()
     const {user} = useSelector((state: any) => state.user);
     const {tasks, status} = useSelector((state: any) => state.tasks);
+    const {accessToken, clearTokens} = useTokens();
 
 
     const filterBy = getParam("filter")
@@ -37,8 +39,8 @@ const Home: React.FC = () => {
     }
 
     useEffect(() => {
-        user && dispatch(fetchTasks(user?.id));
-    }, [user]);
+       dispatch(fetchStudents(accessToken));
+    }, []);
 
     const handleOpenAddTask = () => {
         setIsAddTaskOpen(true);

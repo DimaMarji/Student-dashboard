@@ -4,13 +4,13 @@ import {useNavigate} from 'react-router-dom';
 import {FormControl, Grid, MenuItem, Select, Snackbar, TextField, Typography} from '@mui/material';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../Redux/store";
-import {loginUser} from "../../api/fakeApi";
+import {IUserData, loginUser} from "../../api/fakeApi";
 import LoginImage from "../../Assets/Images/Login/login-img.png"
 import {Button} from "../../Components/Button/index";
 import "./styles.scss"
 import {useTranslation} from "react-i18next";
 import {useLanguage} from "../../Context/Language/LanguageContext";
-import {CultureCode, languageMap} from "../../Constants/Language/cultureCode";
+import {CultureCode} from "../../Constants/Language/cultureCode";
 
 
 const Login = () => {
@@ -19,9 +19,9 @@ const Login = () => {
     const dispatch = useDispatch()
     const {t, i18n} = useTranslation()
     const {cultureCode, switchLanguage} = useLanguage();
-
     const {setTokens, accessToken} = useTokens();
-    const [formValues, setFormValues] = useState<any>();
+
+    const [formValues, setFormValues] = useState<IUserData>();
     const [usernameError, setUsernameError] = useState('');
     const {status, error, user} = useSelector((state: RootState) => state.user);
 
@@ -35,17 +35,9 @@ const Login = () => {
     };
 
 
-    const validateUsername = (input?: string): boolean => {
-        return !!input;
-    };
-
     const handleLogin = (event: any) => {
         event.preventDefault();
-        if (!validateUsername(formValues?.username)) {
-            setUsernameError('Invalid username format');
-        } else {
             dispatch(loginUser(formValues) as any);
-        }
     };
 
     useEffect(() => {
@@ -54,9 +46,11 @@ const Login = () => {
         }
     }, [accessToken])
 
+
+
     useEffect(() => {
         if (status === "succeeded" && user) {
-            setTokens(user?.accessToken, user?.accessToken);
+            setTokens(user?.token, user?.token);
         }
     }, [status, user])
 
