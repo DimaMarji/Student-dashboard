@@ -1,60 +1,45 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getUser, loginUser, registerUser} from "../api/fakeApi";
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {loginUser} from "../api/fakeApi";
 
-interface UserState {
-  username: string;
-  id: string;
-  email: string;
-  password?:string
-  status: string; // Add status property for handling loading state
-  error: string; // Add error property for handling error state
+interface IUserState {
+    user: any | null;
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
 }
 
-const initialState: UserState = {
-  username: '',
-  id: '',
-  email: '',
-  status: '',
-  error: '',
+const initialState: IUserState = {
+    user: null,
+    status: 'idle',
+    error: null,
 };
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-      resetUser: (state:any) => {
-        state.user=null;
-        state.status=undefined
+    resetUser: (state) => {
+      state.user = null;
+      state.status = 'idle';
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.fulfilled, (state:any, action) => {
-        state.user =action.payload
-        state.status = 'succeeded';
-      })
-      .addCase(loginUser.rejected, (state:any, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
-      .addCase(getUser.fulfilled, (state:any, action) => {
-        state.user =action.payload
-        state.status = 'succeeded';
-      })
-      .addCase(getUser.rejected, (state:any, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
-      .addCase(registerUser.fulfilled, (state:any, action) => {
-        state.user = action.payload;
-        state.status = 'succeeded';
-      })
-      .addCase(registerUser.rejected, (state:any, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      });
-  },
+        .addCase(loginUser.pending, (state:IUserState) => {
+          state.status = 'loading';
+          state.error = null;
+        })
+        .addCase(loginUser.fulfilled, (state:IUserState, action: PayloadAction<any>) => {
+          state.user = action.payload;
+          state.status = 'succeeded';
+          state.error = null;
+        })
+        .addCase(loginUser.rejected, (state:IUserState, action) => {
+          state.status = 'failed';
+          state.error = action.payload as string;
+        });
+  }
 });
 
 export const { resetUser } = userSlice.actions;
-
 export default userSlice.reducer;

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Task } from '../Pages/Home/TaskForm/interface';
-import { createTask, deleteTaskApi, fetchTasks, patchTask } from '../api/fakeApi';
+import { createTask, deleteTaskApi, fetchStudents, patchTask } from '../api/fakeApi';
 
 
 interface TasksState {
@@ -35,7 +35,7 @@ const tasksSlice = createSlice({
       .addMatcher(
         (action) =>
           [
-            fetchTasks.pending.type,
+            fetchStudents.pending.type,
             createTask.pending.type,
             deleteTaskApi.pending.type,
             patchTask.pending.type,
@@ -48,7 +48,7 @@ const tasksSlice = createSlice({
       .addMatcher(
         (action) =>
           [
-            fetchTasks.fulfilled.type,
+            fetchStudents.fulfilled.type,
           ].includes(action.type),
         (state:any, action:any) => {
           state.status = 'succeeded';
@@ -58,7 +58,7 @@ const tasksSlice = createSlice({
       .addMatcher(
         (action) =>
           [
-            fetchTasks.rejected.type,
+            fetchStudents.rejected.type,
             createTask.rejected.type,
             deleteTaskApi.rejected.type,
             patchTask.rejected.type,
