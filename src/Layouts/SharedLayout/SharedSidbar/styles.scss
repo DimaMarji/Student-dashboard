@@ -3,13 +3,11 @@
 .layout-sidebar {
     width: 100%;
     display: block;
-    background-color: #333969;
     > div {
-        background-color: #333969;
 
-        * {
-            color: #fff;
-        }
+        // * {
+        //     color: #fff;
+        // }
 
         .css-cveggr-MuiListItemIcon-root {
             min-width: 33px;
@@ -17,9 +15,11 @@
 
         .sidebar-content {
             display: flex;
+            width: 25rem;
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
+            *{font-size: 2rem !important;}
 
         }
 

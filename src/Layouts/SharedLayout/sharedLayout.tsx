@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { getUser, loginUser } from "../../api/fakeApi";
 import SharedNavbar from "./SharedNavbar/sharedNavbar";
 import {useLanguage} from "../../Context/Language/LanguageContext";
+import { languageMap } from "../../Constants/Language/cultureCode";
 
 const SharedLayout: React.FC<ISharedLayoutProps> = ({children}) => {
     const {accessToken,clearTokens} = useTokens();
@@ -27,14 +28,14 @@ const SharedLayout: React.FC<ISharedLayoutProps> = ({children}) => {
     }, [accessToken])
 
     return (
-        <div>
+        <div className={`lang-${languageMap[cultureCode]}`}>
             <SharedNavbar/>
             <Grid container direction={cultureCode?'row-reverse':"row"}>
 
-                <Grid item xs={!isTabletOrMobile ? 3 : 0}>
+                <Grid item xs={!isTabletOrMobile ? 2 : 0}>
                     <Sidebar/>
                 </Grid>
-                <Grid item xs={!isTabletOrMobile ? 9 : 12}>
+                <Grid item xs={!isTabletOrMobile ? 10 : 12}>
                     {children}
                 </Grid>
             </Grid>

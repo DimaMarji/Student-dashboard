@@ -3,5 +3,7 @@
   "signIn": "Sign In",
   "login": "Login",
   "username": "Username",
-  "password": "Password"
+  "password": "Password",
+  "studentsData":"Student's Data",
+  "addStudent":"Add Student"
 }

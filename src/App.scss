@@ -16,3 +16,15 @@ body *{
 html{
   font-size: 8px;
 }
+
+
+.lang-en{
+  *{
+    text-align: left;
+  }
+}
+.lang-ar{
+  *{
+    text-align: right;
+  }
+}

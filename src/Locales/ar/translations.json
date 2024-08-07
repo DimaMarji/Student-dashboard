@@ -3,5 +3,7 @@
   "login": "تسجيل الدخول",
   "signIn": "تسجيل الدخول",
   "username": "اسم المستخدم",
-  "password": "كلمة السر"
+  "password": "كلمة السر",
+  "studentsData":"بيانات الطلاب",
+  "addStudent":"إضافة طالب"
 }

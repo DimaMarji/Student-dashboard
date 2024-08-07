@@ -19,6 +19,7 @@ import useUrlParams from "../../Hooks/URL/useUrl";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import * as React from "react";
 import {useTranslation} from "react-i18next";
+import { Button } from "../../Components/Button";
 
 const Home: React.FC = () => {
 
@@ -94,12 +95,19 @@ const Home: React.FC = () => {
 
 
     return (
-        <div>
-
-            <Typography fontSize={"1.5rem"} component="h6" variant="h6" color={"#666666"}
+        <div className="home-container">
+<div className="table-header">
+<Typography fontSize={"4rem"} fontWeight={"500"} component="h1" variant="h1" color={"#000000"}
             >
-                {t('username')}
+                {t('studentsData')}
             </Typography>
+            <Button color="primary" variant="contained"> {t('addStudent')}
+            <Typography marginLeft={"1rem"} fontSize={"4rem"} component="h1" variant="h1" color={"#FFF"}
+            >+</Typography>
+            </Button>
+
+</div>
+          
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 500}} aria-label="custom pagination table">
                     <TableHead>

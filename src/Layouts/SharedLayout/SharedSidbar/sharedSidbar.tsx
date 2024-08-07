@@ -9,6 +9,8 @@ import useUrlParams from "../../../Hooks/URL/useUrl";
 import { useDispatch } from 'react-redux';
 import { resetUser } from '../../../Redux/userSlice';
 import {useLanguage} from "../../../Context/Language/LanguageContext";
+import StudentIcon from "../../../Assets/Icons/school.png";
+import logo from "../../../Assets/Icons/open-book1.png";
 
 type SidebarProps = {};
 
@@ -55,36 +57,25 @@ const Sidebar: React.FC<SidebarProps> = ({  }) => {
         <Menu />
       </IconButton>}
         <div className='app-logo'>
-        <img src="/to-do-list.png" width={32} />
-          <Typography variant="h6">TaskMaster</Typography>
+        <img src={logo} width={20} />
+          <Typography variant="h6" fontSize={"2rem"}>Logo</Typography>
         </div>
         <Box width={250} className="sidebar-content">
           <List>
             <ListItem button onClick={() => removeParam("filter")}>
               <ListItemIcon>
-              <img src="/task.png" width={24} />
+              <img src={StudentIcon} width={24} />
               </ListItemIcon>
-              <ListItemText primary="All Tasks" />
+              <ListItemText primary="Student's Data" />
             </ListItem>
-            <ListItem button onClick={() => addParam("filter","pending")}>
-              <ListItemIcon>
-              <img src="/clock.png" width={24} />
-              </ListItemIcon>
-              <ListItemText primary="Pending Tasks" />
-            </ListItem>
-            <ListItem button onClick={() => addParam("filter","completed")}>
-              <ListItemIcon>
-              <img src="/done.png" width={24} />
-              </ListItemIcon>
-              <ListItemText primary="Completed Tasks" />
-            </ListItem>
+        
           </List>
           <List>
             <ListItem button onClick={handleSignOut}>
               <ListItemIcon>
                 <ExitToApp />
               </ListItemIcon>
-              <ListItemText primary="Sign Out" />
+              <ListItemText primary="Logout" />
             </ListItem>
           </List>
         </Box>

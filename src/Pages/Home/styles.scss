@@ -1,20 +1,23 @@
 @import "../../Styles/Helpers/mixins";
 
-.task-content-header{
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    padding-top: 24px;
-    padding-bottom: 24px;
-    button{
-        //margin-right: 3vw;
-        height: 40px;
+
+.home-container{
+    margin-top: 5rem;
+    border: 1px solid #00000026;
+    border-radius: 8px;
+    box-shadow: 1.5px 2.6px 10px 0px #7777771A;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  
+    padding-top: 3rem;
+    margin-right: 3rem;
+
+    .table-header{
+        display: flex;
+        justify-content: space-between;
     }
 }
 
-.empty-image{
-width: 30vw;
-}
 
 .home-page{
     margin-inline:6% ;
