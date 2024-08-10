@@ -6,4 +6,5 @@ export const privateRoutes: RouteObject[]=[
       path: "/",
       element: <Home />,
     },
+
   ]

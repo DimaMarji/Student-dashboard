@@ -2,6 +2,7 @@ export type TaskFormProps = {
     open: boolean;
     onClose: () => void;
     onAddTask: (task: Task) => void;
+    studentCurrentData?:any
   };
   
   export type Task = {

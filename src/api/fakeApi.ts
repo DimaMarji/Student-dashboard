@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {ServicesName} from "../Constants/ServicesNames/servicesNames";
+import {s} from "vite/dist/node/types.d-FdqQ54oU";
 
 
 export interface IUserData {
@@ -8,8 +9,17 @@ export interface IUserData {
     password: string;
 }
 
-interface IStudent {
-
+export interface IStudent {
+    id?:string
+    "firstName": string,
+    "lastName": string,
+    "birthDate": string,
+    "grade": string,
+    "gender": string,
+    "country": string,
+    "city": string,
+    "phone": string
+    "remarks": string
 }
 
 interface ILoginResponse {
@@ -77,7 +87,7 @@ export const getStudent = createAsyncThunk(
     }
 );
 
-export const addStudent = createAsyncThunk(
+export const addStudent : any= createAsyncThunk(
     'students/add',
     async (token: string, newStudent: any) => {
         try {
