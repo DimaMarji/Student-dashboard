@@ -3,9 +3,9 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import React, {useState} from "react";
 import TaskDetails from "../../TaskDetails/taskDetailsContainer";
 import {Task, TaskStatusType} from "../../TaskForm/interface";
-import {deleteTask, updateTask} from "../../../../Redux/tasksSlice";
+import {deleteStudentAction, updateStudentAction} from "../../../../Redux/tasksSlice";
 import {useDispatch} from "react-redux";
-import { deleteTaskApi, patchTask } from "../../../../api/fakeApi";
+import { deleteStudent, editStudent } from "../../../../api/fakeApi";
 
 const TaskCard: React.FC<{task:Task}> = ({task}) => {
     const dispatch = useDispatch();
@@ -29,14 +29,14 @@ const TaskCard: React.FC<{task:Task}> = ({task}) => {
     };
 
     const handleStatusChange = (status: TaskStatusType) => {
-        dispatch(updateTask({...task, status: status}));
-        dispatch(patchTask({...task, status: status}) as any);
+        dispatch(updateStudentAction({...task, status: status}));
+        dispatch(deleteStudent({...task, status: status}) as any);
         handleClose();
     };
 
     const handleDeleteTask = () => {
-        dispatch(deleteTask(task?.id));
-        dispatch(deleteTaskApi(task?.id) as any);
+        dispatch(deleteStudentAction(task?.id));
+        dispatch(editStudent(task?.id) as any);
         handleClose();
     };
 

@@ -1,32 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Task } from '../Pages/Home/TaskForm/interface';
-import { createTask, deleteTaskApi, fetchStudents, patchTask } from '../api/fakeApi';
+import {addStudent, deleteStudent, fetchStudents, editStudent, IStudent} from '../api/fakeApi';
 
 
-interface TasksState {
-  tasks: Task[];
+interface IStudentsState {
+  students: IStudent[];
 }
 
-const initialState: TasksState = {
-  tasks: [],
+const initialState: IStudentsState = {
+  students: [],
 };
 
-const tasksSlice = createSlice({
-  name: 'tasks',
+const studentsSlice = createSlice({
+  name: 'students',
   initialState,
   reducers: {
-    addTask: (state, action: PayloadAction<Task>) => {
-      state.tasks.push(action.payload);
+    addStudentAction: (state, action: PayloadAction<IStudent>) => {
+      state.students.push(action.payload);
     },
-    deleteTask: (state, action: PayloadAction<number | string | undefined>) => {
-      const taskId = action.payload;
-      state.tasks = state.tasks.filter(task => task.id !== taskId);
+    deleteStudentAction: (state, action: PayloadAction<number | string | undefined>) => {
+      const studentId = action.payload;
+      state.students = state.students.filter(student => student.id !== studentId);
     },
-    updateTask: (state, action: PayloadAction<Task>) => {
-      const updatedTask = action.payload;
-      const taskIndex = state.tasks.findIndex(task => task.id === updatedTask.id);
-      if (taskIndex !== -1) {
-        state.tasks[taskIndex] = updatedTask;
+    updateStudentAction: (state, action: PayloadAction<IStudent>) => {
+      const updatedStudent = action.payload;
+      const studentIndex = state.students.findIndex(student => student.id === updatedStudent.id);
+      if (studentIndex !== -1) {
+        state.students[studentIndex] = updatedStudent;
       }
     },
   },
@@ -36,9 +35,9 @@ const tasksSlice = createSlice({
         (action) =>
           [
             fetchStudents.pending.type,
-            createTask.pending.type,
-            deleteTaskApi.pending.type,
-            patchTask.pending.type,
+            addStudent.pending.type,
+            deleteStudent.pending.type,
+            editStudent.pending.type,
           ].includes(action.type),
         (state:any) => {
           state.status = 'isLoading';
@@ -52,16 +51,16 @@ const tasksSlice = createSlice({
           ].includes(action.type),
         (state:any, action:any) => {
           state.status = 'succeeded';
-          state.tasks = action.payload;
+          state.students = action.payload;
         }
       )
       .addMatcher(
         (action) =>
           [
             fetchStudents.rejected.type,
-            createTask.rejected.type,
-            deleteTaskApi.rejected.type,
-            patchTask.rejected.type,
+            addStudent.rejected.type,
+            deleteStudent.rejected.type,
+            editStudent.rejected.type,
           ].includes(action.type),
         (state:any, action:any) => {
           state.status = 'failed';
@@ -71,5 +70,5 @@ const tasksSlice = createSlice({
   }
 });
 
-export const { addTask,deleteTask,updateTask  } = tasksSlice.actions;
-export default tasksSlice.reducer;
+export const { addStudentAction,deleteStudentAction,updateStudentAction  } = studentsSlice.actions;
+export default studentsSlice.reducer;

@@ -1,0 +1,76 @@
+@import "../../../Styles/colors";
+@import "../../../Styles/Helpers/mixins";
+.task-form-drawer .MuiDrawer-paperAnchorRight {
+  background-color: #e0dfff;
+
+  .MuiInputBase-formControl, .MuiTextField-root {
+    border-radius: 12px;
+    background-color: white;
+  }
+}
+
+
+.student-form-container{
+  background-color: white;
+}
+
+
+.form-component{
+  width: 50vw;
+
+  label{
+    color: $black-font-color;
+    margin-bottom: 0.8rem;
+  }
+  .MuiInputBase-formControl {
+    outline: none !important;
+    background-color: $primary-input-background-color;
+    border: 1px solid #00000038;
+    box-shadow: none !important;
+    border-radius: 1rem;
+
+    * {
+      border: none !important;
+    }
+    &:not(:has(textarea)) {
+      height: 4.2rem;
+    }
+
+
+  }
+  .css-1iledgx-MuiFormControl-root{
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .buttons-container{
+    display: flex;
+    margin-top: 2rem;
+    gap: 2rem;
+
+    button{
+      flex: 1;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+@include media-query(tablet-and-mobile){
+
+
+  .form-component{
+    width: 100vw;
+  }
+
+  .buttons-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    gap: 2rem;
+
+    button{
+      flex: 1;
+      font-size: 1.5rem;
+    }
+  }
+}
